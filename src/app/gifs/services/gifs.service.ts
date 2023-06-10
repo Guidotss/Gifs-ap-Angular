@@ -23,9 +23,16 @@ export class GifsService {
     this._tagsHistory = [tag, ...this._tagsHistory.splice(0, 9)];
   }
 
-  public searchTag(tag: string): void {
+  public async searchTag (tag: string): Promise<void> {
     this._tagsHistory = [tag, ...this._tagsHistory];
     this.organizeHistory(tag);
+    console.log(tag);
+
+    const response = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=${this.apiKey}&q=${tag}&limit=10`);
+    const { data } = await response.json();
+    console.log(data);
+
+
   }
 
 }
