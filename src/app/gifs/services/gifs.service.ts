@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { GifsModule } from '../gifs.module';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class GifsService {
-
   private _tagsHistory: string[] = [];
+  private serviceUrl: string = 'https://api.giphy.com/v1/gifs';
   private apiKey: string = 'eY6fdP7wtvhzRb6k7fTOgAIv1bqKSsfl'; //esto no se deberia hacer asi
 
-  constructor() { }
-
+  constructor(private http: HttpClient) {}
 
   get TagsHistory(): string[] {
     return [...this._tagsHistory];
@@ -17,22 +17,25 @@ export class GifsService {
   private organizeHistory(tag: string): void {
     tag = tag.toLowerCase();
 
-    if(this.TagsHistory.includes(tag)) {
-      this._tagsHistory = this._tagsHistory.filter(t => t !== tag);
+    if (this.TagsHistory.includes(tag)) {
+      this._tagsHistory = this._tagsHistory.filter((t) => t !== tag);
     }
     this._tagsHistory = [tag, ...this._tagsHistory.splice(0, 9)];
   }
 
-  public async searchTag (tag: string): Promise<void> {
+  public searchTag(tag: string): void {
     this._tagsHistory = [tag, ...this._tagsHistory];
     this.organizeHistory(tag);
-    console.log(tag);
 
-    const response = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=${this.apiKey}&q=${tag}&limit=10`);
-    const { data } = await response.json();
-    console.log(data);
+    const params = new HttpParams()
+      .set('api_key', this.apiKey)
+      .set('q', tag)
+      .set('limit', '10');
 
-
+    this.http
+      .get(`${this.serviceUrl}/search`, { params })
+      .subscribe((resp: any) => {
+        console.log(resp.data);
+      });
   }
-
 }
