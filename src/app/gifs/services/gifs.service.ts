@@ -5,6 +5,7 @@ import { GifsModule } from '../gifs.module';
 export class GifsService {
 
   private _tagsHistory: string[] = [];
+  private apiKey: string = 'eY6fdP7wtvhzRb6k7fTOgAIv1bqKSsfl'; //esto no se deberia hacer asi
 
   constructor() { }
 
