@@ -11,6 +11,7 @@
       <li
         class="cursor-pointer hover:text-slate-300 mb-10"
         *ngFor="let tag of TagsHistory"
+        (click)="searchTag(tag)"
       >
         {{ tag | titlecase }}
       </li>
