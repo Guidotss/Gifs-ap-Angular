@@ -7,7 +7,11 @@ class="bg-slate-300 h-36 rounded-t-md flex justify-center items-center"
   [src]="gif.images.downsized_medium.url"
   [alt]="gif.title"
 /> -->
-<shared-lazy-image></shared-lazy-image>
+<shared-lazy-image
+  class="h-full w-full"
+  [url]="gif.images.downsized_medium.url"
+  [alt]="gif.title"
+  ></shared-lazy-image>
 </div>
 <div
 class="bg-slate-900 h-20 rounded-b-md flex justify-center items-center"
